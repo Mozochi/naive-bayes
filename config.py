@@ -5,6 +5,6 @@
 #
 
 
-# Smoothing factor to the naive bayes algorithm
+# Smoothing factor for the naive bayes algorithm
 
 smoothingFactor = 1
