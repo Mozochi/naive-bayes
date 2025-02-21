@@ -1,3 +1,5 @@
+import math
+
 from config import smoothingFactor
 
 class NaiveBayes:
@@ -8,7 +10,6 @@ class NaiveBayes:
 
 
     def fit(self, x, y):
-        # Train model by calculating priors and likelihoods
         totalDocuments  = len(y)
         uniqueClasses = set(y)
 
@@ -34,5 +35,25 @@ class NaiveBayes:
 
 
     def predict(self, x):
-        # Return the predicted class labels
-        pass
+        predictions = []
+        for document in x: # Classify each document
+            scores= {}
+
+            # For each possible class
+            for classLabel in self.priors:
+                # Start with log of the prior probability
+                score = math.log(self.priors[classLabel])
+                # Add the log of the likelihood of each feature
+                for featurePosition, featureValue in enumerate(document):
+                    likelihood = self.likelihoods[classLabel][featurePosition]
+                    if featureValue == 1:
+                        score += math.log(likelihood)
+                    else:
+                        score += math.log(1 - likelihood)
+                scores[classLabel] = score
+
+            # Pick the class wit the highest score
+            predictedClass = max(scores, key=lambda k: scores[k])
+            predictions.append(predictedClass)
+
+        return predictions
