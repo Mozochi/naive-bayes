@@ -17,7 +17,18 @@ class NaiveBayes:
             documentsInClass = y.count(classLabel)
             self.priors[classLabel] = documentsInClass / totalDocuments 
         
+        numFeatures = len(x[0]) # Number of features per document
+        for classLabel in uniqueClasses:
+            self.likelihoods[classLabel] = {}
 
+            # All the feature vectors for this class
+            classDocuments = [x[i] for i in range(totalDocuments) if y[i] == classLabel]
+            # For each feature position
+            for featurePosition in range(numFeatures):
+                # Counting how many times this feature is 1 for this class
+                featurePositiveCount = sum(1 for document in classDocuments if document[featurePosition] == 1)
+                # Laplace Smoothing (positive count + smoothing) / (class documents + smoothing * possible values)
+                self.likelihoods[classLabel][featurePosition] = (featurePositiveCount + self.smoothing) / (len(classDocuments) + self.smoothing * 2)
         
 
 
