@@ -5,7 +5,7 @@
 
 
 # License
-[(Back to top)](#table-of-contents)
+
 
 
 
