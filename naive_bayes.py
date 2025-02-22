@@ -9,7 +9,7 @@ class NaiveBayes:
         self.smoothing = smoothing
 
 
-    def fit(self, x, y):
+    def fit(self, X, y):
         totalDocuments  = len(y)
         uniqueClasses = set(y)
 
@@ -18,12 +18,12 @@ class NaiveBayes:
             documentsInClass = y.count(classLabel)
             self.priors[classLabel] = documentsInClass / totalDocuments 
         
-        numFeatures = len(x[0]) # Number of features per document
+        numFeatures = len(X[0]) # Number of features per document
         for classLabel in uniqueClasses:
             self.likelihoods[classLabel] = {}
 
             # All the feature vectors for this class
-            classDocuments = [x[i] for i in range(totalDocuments) if y[i] == classLabel]
+            classDocuments = [X[i] for i in range(totalDocuments) if y[i] == classLabel]
             # For each feature position
             for featurePosition in range(numFeatures):
                 # Counting how many times this feature is 1 for this class
@@ -34,13 +34,13 @@ class NaiveBayes:
 
 
 
-    def predict(self, x):
+    def predict(self, X):
         # Handling for edge cases
         if not self.priors or not self.likelihoods:
             raise ValueError("Model must be trained with fit() before calling predict()")
 
         predictions = []
-        for document in x: # Classify each document
+        for document in X: # Classify each document
             scores= {}
 
             # For each possible class
@@ -55,7 +55,6 @@ class NaiveBayes:
                     else:
                         score += math.log(1 - likelihood)
                 scores[classLabel] = score
-
             # Pick the class wit the highest score
             predictedClass = max(scores, key=lambda k: scores[k])
             predictions.append(predictedClass)
