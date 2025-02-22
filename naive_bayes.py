@@ -35,6 +35,10 @@ class NaiveBayes:
 
 
     def predict(self, x):
+        # Handling for edge cases
+        if not self.priors or not self.likelihoods:
+            raise ValueError("Model must be trained with fit() before calling predict()")
+
         predictions = []
         for document in x: # Classify each document
             scores= {}

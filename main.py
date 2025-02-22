@@ -1,15 +1,11 @@
 from naive_bayes import NaiveBayes
+from data_utils import dummy_data
 
 def main():
     nb = NaiveBayes()
+    x_training, y_training, X_test = dummy_data()
     
     # Training data
-    x_training = [[1, 0], [0, 1], [1, 1]]
-    y_training = [0, 1, 0]
-
-
-    # Test Data
-    X_test = [[1, 0], [0, 1]]
     nb.fit(x_training, y_training)
     predictions = nb.predict(X_test)
 
